@@ -1,103 +1,52 @@
-let cells = document.querySelectorAll(".cell");
-let currentPlayer = "X";
+let boxes = document.querySelectorAll(".box");
+let msg = document.getElementById("msg");
+let resetBtn = document.getElementById("reset");
 
-//  Winner Check
-function checkWinner() {
-    let winPatterns = [
-        [0,1,2],
-        [3,4,5],
-        [6,7,8],
-        [0,3,6],
-        [1,4,7],
-        [2,5,8],
-        [0,4,8],
-        [2,4,6]
-    ];
+let turn = "X";
 
-    for (let pattern of winPatterns) {
-        let a = cells[pattern[0]].innerText;
-        let b = cells[pattern[1]].innerText;
-        let c = cells[pattern[2]].innerText;
+const winPatterns = [
+  [0,1,2],
+  [3,4,5],
+  [6,7,8],
+  [0,3,6],
+  [1,4,7],
+  [2,5,8],
+  [0,4,8],
+  [2,4,6]
+];
 
-        if (a !== "" && a === b && b === c) {
-
-            //  highlight winner
-            cells[pattern[0]].style.backgroundColor = "lightgreen";
-            cells[pattern[1]].style.backgroundColor = "lightgreen";
-            cells[pattern[2]].style.backgroundColor = "lightgreen";
-
-            setTimeout(() => {
-                alert(a + " wins!");
-            }, 100);
-
-            return true;
-        }
+boxes.forEach((box) => {
+  box.addEventListener("click", () => {
+    if (box.innerText === "") {
+      box.innerText = turn;
+      checkWinner();
+      turn = turn === "X" ? "O" : "X";
     }
-    return false;
+  });
+});
+
+function checkWinner() {
+  for (let pattern of winPatterns) {
+    let pos1 = boxes[pattern[0]].innerText;
+    let pos2 = boxes[pattern[1]].innerText;
+    let pos3 = boxes[pattern[2]].innerText;
+
+    if (pos1 !== "" && pos1 === pos2 && pos2 === pos3) {
+      msg.innerText = "Winner: " + pos1;
+      disableBoxes();
+    }
+  }
 }
 
-//  AI Move
-function aiMove() {
-    let emptyCells = [];
-
-    cells.forEach((cell, index) => {
-        if (cell.innerText === "") {
-            emptyCells.push(index);
-        }
-    });
-
-    if (emptyCells.length === 0) return;
-
-    let randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-
-    cells[randomIndex].innerText = "O";
-
-    if (checkWinner()) return;
-
-    currentPlayer = "X";
+function disableBoxes() {
+  boxes.forEach(box => box.disabled = true);
 }
 
-//  Reset Game
-function resetGame() {
-    cells.forEach(function(cell) {
-        cell.innerText = "";
-        cell.style.backgroundColor = "";
-    });
-
-    currentPlayer = "X";
-}
-
-//  Click Logic (Main Game)
-cells.forEach(function(cell) {
-    cell.addEventListener("click", function() {
-
-        let mode = document.getElementById("mode").value;
-
-        if (cell.innerText === "" && currentPlayer === "X") {
-
-            cell.innerText = "X";
-
-            if (checkWinner()) return;
-
-            if (mode === "ai") {
-                currentPlayer = "O";
-
-                setTimeout(() => {
-                    aiMove();
-                }, 500);
-
-            } else {
-                currentPlayer = "O";
-            }
-
-        } else if (cell.innerText === "" && mode === "friend") {
-
-            cell.innerText = currentPlayer;
-
-            if (checkWinner()) return;
-
-            currentPlayer = currentPlayer === "X" ? "O" : "X";
-        }
-
-    });
+resetBtn.addEventListener("click", () => {
+  boxes.forEach(box => {
+    box.innerText = "";
+    box.disabled = false;
+  });
+  msg.innerText = "";
+  turn = "X";
 });
