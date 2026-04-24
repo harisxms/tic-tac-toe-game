@@ -1,37 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="./style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pen</title>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8">
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <script src="./script.js"></script>
-  </body>
-</html>
-<h1>Tic Tac Toe Game</h1>
+<h1>Tic Tac Toe</h1>
 
-<select id="mode">
-    <option value="friend">Play with Friend</option>
-    <option value="ai">Play with Computer</option>
-</select>
-
-<div id="board">
-    <button class="cell"></button>
-    <button class="cell"></button>
-    <button class="cell"></button>
-
-    <button class="cell"></button>
-    <button class="cell"></button>
-    <button class="cell"></button>
-
-    <button class="cell"></button>
-    <button class="cell"></button>
-    <button class="cell"></button>
+<div class="board">
+  <button class="box"></button>
+  <button class="box"></button>
+  <button class="box"></button>
+  <button class="box"></button>
+  <button class="box"></button>
+  <button class="box"></button>
+  <button class="box"></button>
+  <button class="box"></button>
+  <button class="box"></button>
 </div>
 
-<br><br>
+<h2 id="msg"></h2>
+<button id="reset">Reset Game</button>
 
-<button onclick="resetGame()">Reset Game</button>
+<script src="script.js"></script>
+</body>
+</html>
